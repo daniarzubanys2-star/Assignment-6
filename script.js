@@ -1,11 +1,8 @@
-/* Assignment #6 – jQuery: The Party in Motion (Task 1 + Task 2)
-   Only jQuery is used for behavior. No inline onclick, no CSS transitions/animations. */
+
 $(function () {
   'use strict';
 
-  /* =====================================================
-     1. DATA – the party as an array (rooms -> guests, left to right)
-     ===================================================== */
+ 
   var PARTY = [
     { id: 'balcony', name: 'Balcony', floor: 2, guests: [
       { name: 'Aigerim', color: 'blue',   time: '20:45', aitu: false, items: ['bag', 'cup'] },
@@ -31,7 +28,7 @@ $(function () {
     ]},
     { id: 'living', name: 'Living room', floor: 1, guests: [
       { name: 'Daniel',  color: 'blue',   time: '19:55', aitu: true,  items: ['glasses'] },
-      // NOTE: Zarina is the thief, so she must have crumbs and NO cup, arriving 21:10 (see the picture).
+    
       { name: 'Zarina',  color: 'green',  time: '21:10', aitu: false, items: ['bag', 'crumbs'] },
       { name: 'Natasha', color: 'yellow', time: '20:30', aitu: true,  items: ['phone', 'bag'] },
       { name: 'Askar',   color: 'black',  time: '21:00', aitu: true,  items: ['bag'] },
@@ -44,20 +41,17 @@ $(function () {
   var ICONS = { phone: '📱', glasses: '👓', bag: '🎒', cup: '☕', crumbs: '🍰' };
   var WORDS = { phone: 'a phone', glasses: 'glasses', bag: 'a bag', cup: 'a cup', crumbs: 'cake crumbs' };
 
-  var orderCounter = 100;   // gives a moved guest an "order" larger than everybody else
-  var $modal = null;        // the one open guest card (or null)
-  var $owner = null;        // the guest card the modal belongs to
+  var orderCounter = 100;   
+  var $modal = null;        
+  var $owner = null;        
 
-  /* ---------- small helpers ---------- */
+  
   function toMin(t) { var p = t.split(':'); return parseInt(p[0], 10) * 60 + parseInt(p[1], 10); }
-  function mins(el) { return parseInt($(el).attr('data-minutes'), 10); }   // arrival time in minutes
-  function ord(el)  { return parseFloat($(el).attr('data-order')); }       // position in the picture order
+  function mins(el) { return parseInt($(el).attr('data-minutes'), 10); }   
+  function ord(el)  { return parseFloat($(el).attr('data-order')); }       
   function roomById(id) { return PARTY.filter(function (r) { return r.id === id; })[0]; }
 
-  /* =====================================================
-     2. BUILD THE PAGE FROM THE ARRAY
-     ===================================================== */
-  // Guest data lives on the card: classes (c-blue, aitu, has-bag...) and data-* attributes.
+ 
   function buildCard(g, order) {
     var $c = $('<div class="guest"></div>')
       .addClass('c-' + g.color)
@@ -81,8 +75,8 @@ $(function () {
 
   function buildParty() {
     closeModalNow();
-    $('.fly').stop(true).remove();           // flying clones from unfinished moves
-    $('#house, #house *').stop(true);        // stop everything that is still animating
+    $('.fly').stop(true).remove();           
+    $('#house, #house *').stop(true);        
     var $house = $('#house').empty();
     [2, 1].forEach(function (floor) {
       var $floor = $('<section class="floor"></section>').attr('data-floor', floor)
@@ -102,9 +96,7 @@ $(function () {
     });
   }
 
-  /* =====================================================
-     3. THE 20 CASES – each run() is ONE jQuery chain that searches the page
-     ===================================================== */
+
   var CASES = [
     { q: 'Who is in the hall?', run: function () {
       return $('.room[data-room="hall"] .guest'); } },
@@ -158,7 +150,7 @@ $(function () {
         .filter(function () { return $(this).prev('.aitu').add($(this).next('.aitu')).length > 0; }); } }
   ];
 
-  // Create the 20 buttons
+  
   $.each(CASES, function (i, c) {
     $('<button type="button" class="case-btn"></button>')
       .attr({ 'data-case': i, title: c.q }).text('Case ' + (i + 1)).appendTo('#cases');
@@ -166,9 +158,9 @@ $(function () {
 
   function runCase(i) {
     var c = CASES[i];
-    buildParty();                         // 1. rebuild the page
-    var $found = c.run();                 // 2. the ONE jQuery chain
-    $found.addClass('hit');               // 3. highlight
+    buildParty();                        
+    var $found = c.run();                
+    $found.addClass('hit');               
     var names = $found.map(function () {
       return $(this).is('.room') ? $(this).find('h3').text() : $(this).attr('data-name');
     }).get();
@@ -180,9 +172,7 @@ $(function () {
     $found.filter('.room').animate({ top: -8 }, 150).animate({ top: 0 }, 150);
   }
 
-  /* =====================================================
-     4. TASK 2 – SPOTLIGHT
-     ===================================================== */
+
   function spotlight($found) {
     // Cases that find rooms keep all guests of those rooms bright
     var $keep = $found.filter('.room').find('.guest').add($found.filter('.guest'));
