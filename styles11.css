@@ -1,0 +1,100 @@
+/* Static styling only: no CSS transitions or animations (all motion is jQuery). */
+:root {
+  --ink: #2b1d14;
+  --brick: #7a3b25;
+  --wall: #fbf6ec;
+  --night: #e8f0fa;
+  --accent: #ff9800;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 16px;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--ink); background: #d9e7d0;
+}
+.top { text-align: center; }
+.top h1 { margin: 0; font-size: 28px; }
+.top p { margin: 4px 0 12px; }
+
+/* ---------- Controls ---------- */
+#cases { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 1100px; margin: 0 auto; }
+button {
+  font: inherit; cursor: pointer; padding: 6px 10px;
+  border: 2px solid var(--ink); border-radius: 8px; background: #fff; color: var(--ink);
+}
+button:hover { background: #ffe9b8; }
+button:focus-visible { outline: 3px solid #1e66d0; }
+.case-btn { font-size: 13px; }
+.controls { text-align: center; margin: 10px 0; }
+#result {
+  max-width: 1100px; margin: 0 auto 14px; padding: 10px 14px; min-height: 44px;
+  background: #fff; border: 2px solid var(--ink); border-radius: 10px;
+}
+
+/* ---------- House ---------- */
+#house { max-width: 1160px; margin: 0 auto; border: 8px solid var(--brick); background: var(--brick); }
+.floor { display: flex; background: #e9d3b0; }
+.floor + .floor { border-top: 8px solid var(--brick); }
+.floor-label {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  padding: 8px 6px; font-weight: bold; text-align: center; background: #e9d3b0;
+}
+.rooms { display: flex; flex: 1; }
+.room {
+  position: relative; flex: 1; padding: 8px 10px; background: var(--wall);
+  border-left: 6px solid var(--brick); min-width: 0;
+}
+.room[data-room="balcony"] { background: var(--night); }
+.room.hit { box-shadow: inset 0 0 0 4px var(--accent); }
+.room-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.room-head h3 { margin: 0; }
+.sort-btn { font-size: 12px; padding: 3px 8px; }
+.sort-btn.on { background: #ffe9b8; }
+
+/* ---------- Guest card ---------- */
+.guests { display: flex; flex-wrap: wrap; min-height: 118px; align-items: flex-start; }
+.guest, .fly {
+  position: relative; width: 76px; margin: 0 3px 4px; padding: 4px 0;
+  text-align: center; cursor: pointer; border-radius: 10px;
+}
+.fly { position: absolute; z-index: 50; pointer-events: none; }
+.gap { height: 100px; flex: none; }          /* placeholder while a guest moves */
+.guest.hit { background: #fff1c9; box-shadow: 0 0 0 3px var(--accent); }
+.avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: #fff;
+  border: 4px solid #888; display: block; margin: 0 auto;
+}
+.badge {
+  position: absolute; top: 0; right: 6px; width: 20px; height: 20px; line-height: 20px;
+  font-size: 12px; border-radius: 50%; background: #1d4f91; color: #fff;
+}
+.name { font-weight: bold; font-size: 12px; margin-top: 2px; }
+.time { font-size: 11px; opacity: .8; }
+.icons { font-size: 12px; min-height: 16px; }
+
+/* Ring colors (clothing colors) */
+.c-red .avatar { border-color: #e53935; }
+.c-blue .avatar { border-color: #1e66d0; }
+.c-green .avatar { border-color: #2e9e5b; }
+.c-yellow .avatar { border-color: #f0b429; }
+.c-purple .avatar { border-color: #8e5bd0; }
+.c-black .avatar { border-color: #1b1b1b; }
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed; z-index: 100; overflow: hidden; background: #fff;
+  border: 3px solid var(--ink); border-radius: 18px;
+}
+.modal-inner { width: 300px; padding: 16px; }
+.modal-inner img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #888; display: block; margin: 0 auto 8px; }
+.modal-inner h2 { margin: 0 0 8px; text-align: center; }
+.modal-inner ul { margin: 0 0 10px; padding-left: 20px; }
+.modal-inner .move-btn { display: block; width: 100%; margin-top: 6px; }
+.modal-inner.c-red img { border-color: #e53935; }
+.modal-inner.c-blue img { border-color: #1e66d0; }
+.modal-inner.c-green img { border-color: #2e9e5b; }
+.modal-inner.c-yellow img { border-color: #f0b429; }
+.modal-inner.c-purple img { border-color: #8e5bd0; }
+.modal-inner.c-black img { border-color: #1b1b1b; }
+
+@media (max-width: 800px) { .rooms { flex-direction: column; } }
